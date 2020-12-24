@@ -1,0 +1,44 @@
+version: "3"
+services:
+
+  teamcity:
+    image: jetbrains/teamcity-server
+    environment: 
+      - TEAMCITY_SERVER_MEM_OPTS=-Xmx1g
+    ports:
+      - "8112:8111"
+    volumes:
+      - ./data/teamcity_dir:/data/teamcity_server/datadir
+      - ./log/teamcity_dir:/opt/teamcity/logs
+
+  bitbucket:
+    image: atlassian/bitbucket-server
+    volumes: 
+    - ./data/bitbucket_dir:/var/atlassian/application-data/bitbucket
+    ports: 
+      - "7990:7990"
+      - "7999:7999"
+  
+  jira:
+    image: atlassian/jira-software
+    volumes:
+      - ./data/jira_dir:/var/atlassian/application-data/jira
+    ports:
+      - "8080:8080"
+  
+  teamcity-agent:
+    image: jetbrains/teamcity-agent
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - SERVER_URL=http://teamcity:8111
+      - AGENT_NAME=regular_agent
+
+  nexus:
+    image: sonatype/nexus3:latest
+    volumes: 
+      - ./data/nexus_dir:/nexus-data
+    ports: 
+      - "8081:8081"
+      - "8123:8123"

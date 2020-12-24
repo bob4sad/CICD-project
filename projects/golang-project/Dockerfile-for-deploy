@@ -1,0 +1,10 @@
+FROM golang:1.12-alpine AS build_base
+WORKDIR /tmp/my-project
+
+COPY src/* /tmp/my-project/
+RUN go build -o ./out/my-project .
+
+FROM alpine:3.9 
+COPY --from=build_base /tmp/my-project/out/my-project /app/my-project
+EXPOSE 8001
+CMD ["sh"]

@@ -1,0 +1,7 @@
+FROM python:3.7
+WORKDIR /app
+COPY src/ /app
+RUN pip3 install -r requirements.txt
+ENV FLASK_APP=web-server.py
+EXPOSE 8003
+CMD ["python3", "web-server.py"]
