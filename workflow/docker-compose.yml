@@ -26,6 +26,14 @@ services:
     ports:
       - "8080:8080"
   
+  nexus:
+    image: sonatype/nexus3:latest
+    volumes: 
+      - ./data/nexus_dir:/nexus-data
+    ports: 
+      - "8081:8081"
+      - "8123:8123"
+
   teamcity-agent:
     image: jetbrains/teamcity-agent
     user: root
@@ -34,11 +42,3 @@ services:
     environment:
       - SERVER_URL=http://teamcity:8111
       - AGENT_NAME=regular_agent
-
-  nexus:
-    image: sonatype/nexus3:latest
-    volumes: 
-      - ./data/nexus_dir:/nexus-data
-    ports: 
-      - "8081:8081"
-      - "8123:8123"
