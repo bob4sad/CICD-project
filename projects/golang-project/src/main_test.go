@@ -23,6 +23,7 @@ func TestHandleMain(t *testing.T) {
 		},
 		{
 			name: testData[1],
+			// data: "hello i am error",
 			data: testData[1],
 			want: []byte(testData[1]),
 		},
